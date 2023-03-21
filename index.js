@@ -1,6 +1,8 @@
 const express = require("express")
 const dataConnect = require('./config/connect')
 const userRoute = require("./routes/userRoutes")
+const questionRoute = require("./routes/security-questionRoutes")
+
 const ErrorHandler = require( "./middlewares/ErrorHandler.js");
 
 // const sectionsRoutes = require("./routes/sectionsRoutes")
@@ -20,6 +22,7 @@ app.use(bp.urlencoded({
 
 app.use("/", userRoute);
 app.use("/sec", sectionRoute);
+app.use("/question", questionRoute);
 app.use(ErrorHandler)
 
 

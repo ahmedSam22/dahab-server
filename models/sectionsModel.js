@@ -22,6 +22,6 @@ const sectionModel = new mongoose.Schema({
 
 
 
-const Sections = mongoose.model("section" , sectionModel);
+const Sections = mongoose.model("Section" , sectionModel);
 
 module.exports = Sections

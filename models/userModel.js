@@ -14,16 +14,23 @@ const userModel = new mongoose.Schema({
     },
     phone : {
         type : Number,
-        required: true
+        required: true,
+        unique: true
+
     },
-    nationalID : {
-        type : Number,
+    securityquestion : {
+        type : String,
+        required : true
+    },
+    securityanswer : {
+        type : String,
+        required : true
     },
     password : {
         type : String,
         required: true,
         minlength: 5
-    },
+    }
 },
 {
     timestamps : true
@@ -34,16 +41,7 @@ userModel.methods.comparePassword =  function(password){
     return bcrypt.compareSync(password, this.password)
 }
 
-// userModel.methods.forgetPassword =  function(nationalID){
-//     return user
-// }
 
-//newpassword 
-// userModel.pre("save" , function(next){
-//     const hash = bcrypt.hashSync(this.password , 10);
-//     this.password = hash;
-//     next()
-// })
 //hash
 userModel.pre("save" , function(next){
     const hash = bcrypt.hashSync(this.password , 10);
@@ -53,6 +51,20 @@ userModel.pre("save" , function(next){
 
 
 
-const Users = mongoose.model("user" , userModel);
+
+//hash Answer 
+userModel.pre("save" , function(next){
+    const hash = bcrypt.hashSync(this.securityanswer , 10);
+    this.securityanswer = hash;
+    next()
+})
+
+//compare security answer 
+userModel.methods.compareAnswer =  function(securityanswer){
+    return bcrypt.compareSync(securityanswer, this.securityanswer)
+}
+
+
+const Users = mongoose.model("User" , userModel);
 
 module.exports = Users

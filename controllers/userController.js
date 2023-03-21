@@ -34,9 +34,8 @@ const login = async (req, res, next) => {
       },
       "uyteyrzdxtfyli;o'p'098769ot86t"
     );
-    res.json({ user: user, status: 200 }).status(200);
-    // const {name , email,nationalID,phone } = user;
-    // return{user,token}
+    const {createdAt,email,phone,name } = user;
+    res.json({ user: {createdAt,email,phone,name },token, status: 200 }).status(200);
   } else {
     next("wrong");
     res.json({ data: "password can't match", status: 300 });
@@ -55,15 +54,35 @@ const forgetPassword = async (req, res, next) => {
     return;
   }
 
-  const verified = user.nationalID == req.body.nationalID;
 
-  if (!verified) {
+  if (user) {
+    // return nationalID
+    res.json({status : 200}).status(200);
+    
+    console.log("it's okay yasta");
+  }
+};
+
+const secondLayer = async (req, res, next) => {
+  const query = { phone: req.body.phone };
+
+  const user = await users.findOne(query).exec();
+
+  if (!user) {
     console.log("from user");
-    res.json("NationalID Is wrong").status(300);
+    res.json("user not found").status(300);
     return;
   }
 
-  if (user && verified) {
+  const verified = user.securityanswer == req.body.answer;
+
+  if (!verified) {
+    console.log("from user");
+    res.json("Answer Is wrong").status(300);
+    return;
+  }
+
+  if (user) {
     // return nationalID
     res.json({status : 200}).status(200);
     
@@ -96,4 +115,6 @@ const newPassword = (req, res, next) => {
   console.log(updated);
 };
 
-module.exports = { createUser, login, forgetPassword, newPassword };
+
+
+module.exports = { createUser, login, forgetPassword, newPassword,secondLayer };
