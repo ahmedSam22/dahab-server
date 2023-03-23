@@ -13,6 +13,8 @@ const {
   deleteSection,
 } = require("../controllers/sectionController");
 
+
+
 router.post("/add",upload.single("photo"), createSection);
 
 router.get("/all", getSections);

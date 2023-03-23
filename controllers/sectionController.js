@@ -4,17 +4,8 @@ const fs = require("fs")
 
 const createSection = (req, res , next) =>{
   console.log(req.file.path);
-  // req.body.photo = req.body
-// const uploadBody = new Sections({
-//   name : req.body.name,
-//   color : req.body.color,
-//   photo:{
-//     data: fs.readFileSync('../uploads' , req.file.filename),
-//     contentType:"image/png"
-//   }
-// })
-// uploadBody.save().then(_=>console.log("saved"))
-if(req.file){
+
+if(req.file.path){
   Sections.create({...req.body , photo : req.file.path}).then((doc) => res.status(200).json({ data: doc, status: 200 }))
   .catch((err) => res.status(300).json({ error: err, status: 300 }));
 }else{ 
@@ -22,7 +13,6 @@ if(req.file){
   .catch((err) => res.status(300).json({ error: err, status: 300 }));
 }
     // Sections.create({...req.body , photo : req.file.path})
-
   }
 
 const getSections = async (req, res, next) => {
