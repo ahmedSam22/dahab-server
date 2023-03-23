@@ -1,5 +1,11 @@
 const express = require("express");
 const router = express.Router();
+
+
+const upload = require("../middlewares/Upload")
+
+
+
 const {
   getSections,
   createSection,
@@ -7,7 +13,7 @@ const {
   deleteSection,
 } = require("../controllers/sectionController");
 
-router.post("/add", createSection);
+router.post("/add",upload.single("photo"), createSection);
 
 router.get("/all", getSections);
 

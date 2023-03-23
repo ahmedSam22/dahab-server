@@ -1,9 +1,29 @@
 const Sections = require("../models/sectionsModel");
+const fs = require("fs")
 
-const createSection = (req, res) =>
-  Sections.create(req.body)
-    .then((doc) => res.status(200).json({ data: doc, status: 200 }))
-    .catch((err) => res.status(300).json({ error: err, status: 300 }));
+
+const createSection = (req, res , next) =>{
+  console.log(req.file.path);
+  // req.body.photo = req.body
+// const uploadBody = new Sections({
+//   name : req.body.name,
+//   color : req.body.color,
+//   photo:{
+//     data: fs.readFileSync('../uploads' , req.file.filename),
+//     contentType:"image/png"
+//   }
+// })
+// uploadBody.save().then(_=>console.log("saved"))
+if(req.file){
+  Sections.create({...req.body , photo : req.file.path}).then((doc) => res.status(200).json({ data: doc, status: 200 }))
+  .catch((err) => res.status(300).json({ error: err, status: 300 }));
+}else{ 
+  Sections.create(req.body).then((doc) => res.status(200).json({ data: doc, status: 200 }))
+  .catch((err) => res.status(300).json({ error: err, status: 300 }));
+}
+    // Sections.create({...req.body , photo : req.file.path})
+
+  }
 
 const getSections = async (req, res, next) => {
   try {
@@ -17,20 +37,7 @@ const getSections = async (req, res, next) => {
   }
 };
 
-//     const verified = user.nationalID == nationalID;
 
-//     if(!verified){
-//         console.log("from user")
-//         next("wrong");
-//         res.json("wrong")
-//          return;
-//      }
-
-//     if(user && verified){
-// // return nationalID
-// console.log("it's okay yasta");
-//     }
-// }
 
 const updateSection = async (req, res, next) => {
   // const user = await users.findOne({nationalID}).exec();

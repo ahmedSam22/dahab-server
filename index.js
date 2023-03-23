@@ -2,6 +2,8 @@ const express = require("express")
 const dataConnect = require('./config/connect')
 const userRoute = require("./routes/userRoutes")
 const questionRoute = require("./routes/security-questionRoutes")
+var cors = require('cors')
+
 
 const ErrorHandler = require( "./middlewares/ErrorHandler.js");
 
@@ -11,7 +13,9 @@ const bp = require('body-parser')
 const app = express()
 
 
-dataConnect()
+
+app.use(cors())
+
 app.use(bp.json())
 app.use(bp.urlencoded({
     extended: true
@@ -19,15 +23,17 @@ app.use(bp.urlencoded({
 
 
 
-
 app.use("/", userRoute);
 app.use("/sec", sectionRoute);
 app.use("/question", questionRoute);
 app.use(ErrorHandler)
+app.use(express.static('uploads'))
 
 
 // const Port = process.env.Port 
 
-app.listen(5000,()=>{
+dataConnect().then(_=>{
+  app.listen(5000,()=>{
     console.log("tamam");
     })
+})
