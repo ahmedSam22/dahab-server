@@ -57,7 +57,7 @@ const forgetPassword = async (req, res, next) => {
 
   if (user) {
     // return nationalID
-    res.json({status : 200}).status(200);
+    res.json({status : 200 , user}).status(200);
     
     console.log("it's okay yasta");
   }
@@ -74,7 +74,7 @@ const secondLayer = async (req, res, next) => {
     return;
   }
 
-  const verified = user.securityanswer == req.body.answer;
+  const verified = user.compareAnswer(req.body.answer);
 
   if (!verified) {
     console.log("from user");

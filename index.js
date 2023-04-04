@@ -2,6 +2,10 @@ const express = require("express")
 const dataConnect = require('./config/connect')
 const userRoute = require("./routes/userRoutes")
 const questionRoute = require("./routes/security-questionRoutes")
+const hotelsRoute = require("./routes/hotelsRoutes")
+const reviewsRoute = require("./routes/reviewsRoutes")
+const auth = require('./middlewares/Auth');
+
 var cors = require('cors')
 
 
@@ -24,8 +28,10 @@ app.use(bp.urlencoded({
 
 
 app.use("/", userRoute);
-app.use("/sec", sectionRoute);
+app.use("/sec", auth ,sectionRoute);
 app.use("/question", questionRoute);
+app.use("/hotels", auth ,  hotelsRoute);
+app.use("/reviews", auth , reviewsRoute);
 app.use(ErrorHandler)
 app.use(express.static('uploads'))
 
