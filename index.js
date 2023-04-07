@@ -30,7 +30,7 @@ app.use(bp.urlencoded({
 app.use("/", userRoute);
 app.use("/sec", auth ,sectionRoute);
 app.use("/question", questionRoute);
-app.use("/hotels", auth ,  hotelsRoute);
+app.use("/hotels" ,  hotelsRoute);
 app.use("/reviews", auth , reviewsRoute);
 app.use(ErrorHandler)
 app.use(express.static('uploads'))

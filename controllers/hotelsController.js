@@ -16,10 +16,10 @@ const getAllHotels = async (req,res,next)=>{
 
 
 const createHotel = (req, res , next) =>{
-  // console.log(req.files.path , "hhh");
+  // console.log(req.file , "ksjaihuih");
 
 if(req.file){
-  hotels.create({...req.body ,profileImage : req.file.path, photos : req.files}).then((doc) => res.status(200).json({ data: doc, status: 200 }))
+  hotels.create({...req.body ,profileImage : req.file.path}).then((doc) => res.status(200).json({ data: doc, status: 200 }))
   .catch((err) => res.status(300).json({ error: err, status: 300 }));
 }else{ 
   hotels.create(req.body).then((doc) => res.status(200).json({ data: doc, status: 200 }))
