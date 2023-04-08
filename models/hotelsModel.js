@@ -14,13 +14,15 @@ const hotelsModel = new mongoose.Schema({
     profileImage: {
       type : String
     },
-  photos: [{ type : String }],
-  rating: [
-    {
-      author: String,
-      rate: String,
-    },
-  ],
+  photos: [{ 
+    path : String
+   }],
+  // rating: [
+  //   {
+  //     author: String,
+  //     rate: String,
+  //   },
+  // ],
   price: [
     {
       class: String,
@@ -30,7 +32,11 @@ const hotelsModel = new mongoose.Schema({
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review'
-  }]
+  }],
+  author:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
 const Hotels = mongoose.model("Hotel" , hotelsModel);

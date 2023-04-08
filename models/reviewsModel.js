@@ -15,7 +15,6 @@ const reviewsSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
      },
- // each comment can only relates to one blog, so it's not in array
   hotel: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Hotel'

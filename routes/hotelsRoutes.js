@@ -10,7 +10,11 @@ const {
 
 
 router.get("/get", getAllHotels);
-router.post("/add",upload.single("profileImage"), createHotel);
+router.post("/add", upload.fields([{
+  name: 'photos', maxCount: 20
+}, {
+  name: 'profileImage', maxCount: 1
+}]), createHotel);
 
 
 
