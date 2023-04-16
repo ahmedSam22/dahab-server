@@ -29,6 +29,9 @@ const hotelsModel = new mongoose.Schema({
       price: String,
     },
   ],
+  type : {
+    type : String
+  },
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review'
