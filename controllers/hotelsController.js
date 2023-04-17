@@ -1,4 +1,6 @@
 const hotels = require("../models/hotelsModel");
+const haversine = require('haversine-distance')
+const favouriteHotels = require('../models/favouriteHotelsModule')
 
 const getAllHotels = async (req, res, next) => {
   const {page = 1 , limit = 10} = req.query;
@@ -9,7 +11,7 @@ const getAllHotels = async (req, res, next) => {
     if (allHotels) {
 
       console.log(allHotels);
-      res.status(200).json({ links : links , data: Hotels, status: 200 });
+      res.status(200).json({ pages : links,currentPage : page , data: Hotels, status: 200 });
     }
   } catch (error) {
     res.status(300).json({ data: error, status: 300 });
@@ -73,4 +75,45 @@ const createHotel = (req, res, next) => {
 
 };
 
-module.exports = { getAllHotels, getHotel , updateHotel , createHotel };
+
+const toggleFavouritre = async (req,res,next) => {
+  const {hotel_id} = req.query;
+  const isHotel =  await favouriteHotels.findOne({ hotel_id : hotel_id })
+  const body = {
+    hotel_id : hotel_id,
+    author: req.user._id,
+  };
+  console.log(isHotel);
+if(!isHotel){
+  console.log("added");
+ favouriteHotels
+  .create(body)
+  .then((doc) => res.json(doc).status(200))
+  .catch((err) => res.status(300).json({ error: err, status: 300 }));
+  return;
+}else{
+  console.log("deleted");
+  favouriteHotels
+  .findOneAndDelete({hotel_id : hotel_id})
+  .then((doc) => res.json(doc))
+  .catch((err) => res.status(300).json({ error: err, status: 300 }));
+}
+}
+
+
+
+const getAllFavouriteHoterls = async (req,res,next)=>{
+  const {page = 1 , limit = 10} = req.query;
+  const allHotels = await favouriteHotels.find({});
+
+  const links = Math.floor((allHotels.length / limit) + 1);
+  const favourites = favouriteHotels.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').limit(limit).skip((page  - 1) * limit).populate('hotel_id').then((doc) => res.status(200).json({data:doc ,pages : links , currentPage : page , status:200}));
+  return favourites;
+}
+const getDistance = (req,res,next)=>{
+  const a = { lat: 37.8136, lng: 144.9631 }
+  const b = { lat: 33.8650, lon: 151.2094 }
+console.log(haversine(a, b)/1000)
+
+}
+module.exports = { getAllHotels, getHotel , updateHotel , createHotel , getDistance , toggleFavouritre,getAllFavouriteHoterls};

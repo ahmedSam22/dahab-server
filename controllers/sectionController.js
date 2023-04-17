@@ -1,5 +1,4 @@
 const Sections = require("../models/sectionsModel");
-const fs = require("fs")
 
 
 const createSection = (req, res , next) =>{

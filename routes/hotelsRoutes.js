@@ -7,7 +7,10 @@ const {
     getAllHotels,
     getHotel,
     updateHotel,
-    createHotel
+    createHotel,
+    getDistance,
+    toggleFavouritre,
+    getAllFavouriteHoterls
   } = require("../controllers/hotelsController");
 
 
@@ -20,6 +23,9 @@ router.post("/add", upload.fields([{
   name: 'profileImage', maxCount: 1
 }]), createHotel);
 
+router.get("/getz", getDistance);
+router.get("/favourite", toggleFavouritre);
+router.get("/allfavourite", getAllFavouriteHoterls);
 
 
 module.exports = router;

@@ -1,22 +1,37 @@
 const mongoose = require("mongoose");
 
-
 const hotelsModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  location:
+  location: {
+    lat: String,
+    lng: String,
+  },
+  distance: {
+    type: String,
+  },
+  pets: {
+    type: Boolean,
+    default: false,
+  },
+  wifi: {
+    type: Boolean,
+    default: false,
+  },
+  pool: {
+    type: Boolean,
+    default: false,
+  },
+  profileImage: {
+    type: String,
+  },
+  photos: [
     {
-      lat: String,
-      lng: String,
+      path: String,
     },
-    profileImage: {
-      type : String
-    },
-  photos: [{ 
-    path : String
-   }],
+  ],
   // rating: [
   //   {
   //     author: String,
@@ -29,19 +44,21 @@ const hotelsModel = new mongoose.Schema({
       price: String,
     },
   ],
-  type : {
-    type : String
+  type: {
+    type: String,
   },
-  comments: [{
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
+  author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Review'
-  }],
-  author:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
+    ref: "User",
+  },
 });
 
-const Hotels = mongoose.model("Hotel" , hotelsModel);
+const Hotels = mongoose.model("Hotel", hotelsModel);
 
-module.exports = Hotels
+module.exports = Hotels;
