@@ -4,14 +4,18 @@ const favouriteHotels = require('../models/favouriteHotelsModule')
 
 const getAllHotels = async (req, res, next) => {
   const {page = 1 , limit = 10} = req.query;
+   pages=[];
   try {
-    const allHotels = await hotels.find({});
-    const links = Math.floor((allHotels.length / limit) + 1);
+    const allHotels = await hotels.count({});
+    const links = Math.floor((allHotels / limit) + 1);
+    for(let i = 1; i<=links;i++){
+      pages.push(i)
+    }
     const Hotels = await hotels.find({}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
     if (allHotels) {
 
       console.log(allHotels);
-      res.status(200).json({ pages : links,currentPage : page , data: Hotels, status: 200 });
+      res.status(200).json({ pages : pages,currentPage : page , data: Hotels, status: 200 });
     }
   } catch (error) {
     res.status(300).json({ data: error, status: 300 });
@@ -47,11 +51,17 @@ const updateHotel = async (req, res, next) => {
 
 
 const createHotel = (req, res, next) => {
-  console.log(req);
-  console.log(req.files.profileImage, "ksjaihuih");
+  const locationStart = { lat: 28.495297, lng: 34.517070 }
+  // console.log(req.body);
+  const locationEnd = req.body.location
+  const distance = (haversine(locationStart, locationEnd)/1000).toFixed(2)
+  console.log(req.body.location , 'yes here');
+
+  // console.log(req.files.profileImage, "ksjaihuih");
   var photos = [];
   var body = {
     ...req.body,
+    distance : distance,
     author : req.user._id
   }
   if (req.files.photos) {
