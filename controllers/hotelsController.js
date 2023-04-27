@@ -1,17 +1,23 @@
 const hotels = require("../models/hotelsModel");
 const haversine = require('haversine-distance')
-const favouriteHotels = require('../models/favouriteHotelsModule')
+const favouriteHotels = require('../models/favouriteHotelsModule');
+const { query } = require("express");
 
 const getAllHotels = async (req, res, next) => {
-  const {page = 1 , limit = 10} = req.query;
+  const {page = 1 , limit = 10,type,size , startPrice = 0 , endPrice} = req.query;
    pages=[];
+   var query = new Object();
+   if(type) query.type = type;
+   if(startPrice) query.$and = [{"price.price" :  {$gte : startPrice}} ];
+
+   if(endPrice) query.$and = [{"price.price" :  {$gte : startPrice , $lte : endPrice}} ];
   try {
-    const allHotels = await hotels.count({});
+    const allHotels = await hotels.find(query).count({});
     const links = Math.floor((allHotels / limit) + 1);
     for(let i = 1; i<=links;i++){
       pages.push(i)
     }
-    const Hotels = await hotels.find({}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
+    const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
     if (allHotels) {
 
       console.log(allHotels);
@@ -111,6 +117,33 @@ if(!isHotel){
 }
 
 
+// const filteredHotels = async (req,res,next) => {
+//   const {page = 1 , limit = 10 ,type,size , startPrice = 0 , endPrice } = req.query;
+//    pages=[];
+//      var query = new Object();
+//     if(type) query.type = type;
+//     if(startPrice) query.$and = [{"price.price" :  {$gte : startPrice}} ];
+
+//     if(endPrice) query.$and = [{"price.price" :  {$gte : startPrice , $lte : endPrice}} ];
+//    try {
+  
+//     console.log(query , "uj8aiu8aiu");
+//     const allHotels = await hotels.find(query).count();
+//     const links = Math.floor((allHotels / limit) + 1);
+//     for(let i = 1; i<=links;i++){
+//       pages.push(i)
+//     }
+//     const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
+//     if (allHotels) {
+//       console.log(allHotels);
+//       res.status(200).json({ pages : pages,currentPage : page , data: Hotels, status: 200 });
+//     }
+//   } catch (error) {
+//     console.log("fe eih");
+//     res.status(300).json({ data: error, status: 300 });
+//   }
+// }
+
 
 const getAllFavouriteHoterls = async (req,res,next)=>{
   const {page = 1 , limit = 10} = req.query;
@@ -126,4 +159,4 @@ const getDistance = (req,res,next)=>{
 console.log(haversine(a, b)/1000)
 
 }
-module.exports = { getAllHotels, getHotel , updateHotel , createHotel , getDistance , toggleFavouritre,getAllFavouriteHoterls};
+module.exports = { getAllHotels, getHotel , updateHotel , createHotel , getDistance , toggleFavouritre,getAllFavouriteHoterls };

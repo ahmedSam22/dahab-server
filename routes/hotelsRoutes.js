@@ -10,11 +10,13 @@ const {
     createHotel,
     getDistance,
     toggleFavouritre,
-    getAllFavouriteHoterls
+    getAllFavouriteHoterls,
+    filteredHotels
   } = require("../controllers/hotelsController");
 
 
 router.get("/get", getAllHotels);
+// router.get("/filtered", filteredHotels);
 router.get("/getOne", getHotel);
 router.post("/update", updateHotel);
 router.post("/add", upload.fields([{

@@ -40,7 +40,7 @@ const hotelsModel = new mongoose.Schema({
   // ],
   price: [
     {
-      class: String,
+      size: String,
       price: String,
     },
   ],
