@@ -53,6 +53,9 @@ const hotelsModel = new mongoose.Schema({
       ref: "Review",
     },
   ],
+  contactNumber:{
+    type : String
+  },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

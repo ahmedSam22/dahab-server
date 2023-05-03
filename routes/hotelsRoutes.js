@@ -25,7 +25,7 @@ router.post("/add", upload.fields([{
   name: 'profileImage', maxCount: 1
 }]), createHotel);
 
-router.get("/getz", getDistance);
+router.get("/getDistance", getDistance);
 router.get("/favourite", toggleFavouritre);
 router.get("/allfavourite", getAllFavouriteHoterls);
 

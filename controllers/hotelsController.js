@@ -4,6 +4,7 @@ const favouriteHotels = require('../models/favouriteHotelsModule');
 const { query } = require("express");
 
 const getAllHotels = async (req, res, next) => {
+  // console.log(req.headers.authorization, "okiouyguui");
   const {page = 1 , limit = 10,type,size , startPrice = 0 , endPrice} = req.query;
    pages=[];
    var query = new Object();
@@ -17,11 +18,28 @@ const getAllHotels = async (req, res, next) => {
     for(let i = 1; i<=links;i++){
       pages.push(i)
     }
-    const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
-    if (allHotels) {
+    try {
+       if(req.headers?.authorization){
+      const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
 
-      console.log(allHotels);
+      const favs = await favouriteHotels.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
+
+
+      // console.log(favs);
+      res.status(200).json({ pages : pages,currentPage : page , data: Hotels,favs:favs, status: 200 });
+    }else{
+      const Hotels = await hotels.find({}).limit(limit).skip((page  - 1) * limit)
+
       res.status(200).json({ pages : pages,currentPage : page , data: Hotels, status: 200 });
+
+    }
+    } catch (error) {
+      console.log(error);
+    }
+   
+
+    if (allHotels) {
+ 
     }
   } catch (error) {
     res.status(300).json({ data: error, status: 300 });
@@ -29,9 +47,10 @@ const getAllHotels = async (req, res, next) => {
 };
 
 const getHotel = async (req, res, next) => {
-  console.log(req.body , "jhuah");
+  const {id} = req.query;
+  console.log(id);
   try {
-    const Hotel = await hotels.findOne({ _id: req.body.hotel_id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments");
+    const Hotel = await hotels.findOne({ _id: id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments");
     if (Hotel) {
       console.log(Hotel);
       res.status(200).json({ data: Hotel, status: 200 });
@@ -93,10 +112,10 @@ const createHotel = (req, res, next) => {
 
 
 const toggleFavouritre = async (req,res,next) => {
-  const {hotel_id} = req.query;
-  const isHotel =  await favouriteHotels.findOne({ hotel_id : hotel_id })
+  const {id} = req.query;
+  const isHotel =  await favouriteHotels.findOne({ hotel_id : id , author :req.user._id })
   const body = {
-    hotel_id : hotel_id,
+    hotel_id : id,
     author: req.user._id,
   };
   console.log(isHotel);
@@ -104,13 +123,13 @@ if(!isHotel){
   console.log("added");
  favouriteHotels
   .create(body)
-  .then((doc) => res.json(doc).status(200))
+  .then((doc) => res.json({doc}).status(200))
   .catch((err) => res.status(300).json({ error: err, status: 300 }));
   return;
 }else{
   console.log("deleted");
   favouriteHotels
-  .findOneAndDelete({hotel_id : hotel_id})
+  .findOneAndDelete({hotel_id : id, author :req.user._id})
   .then((doc) => res.json(doc))
   .catch((err) => res.status(300).json({ error: err, status: 300 }));
 }
