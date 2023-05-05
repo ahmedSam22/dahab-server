@@ -56,6 +56,16 @@ const hotelsModel = new mongoose.Schema({
   contactNumber:{
     type : String
   },
+  description:{
+    type : String
+  },
+  breakfastFees:{
+    type : String
+  },
+  accepted:{
+    type :Boolean,
+    default : true
+  },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

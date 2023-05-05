@@ -32,8 +32,8 @@ app.use("/sec", auth ,sectionRoute);
 app.use("/question" , questionRoute);
 app.use("/hotels" , auth ,  hotelsRoute);
 app.use("/reviews", auth , reviewsRoute);
-app.use(ErrorHandler)
-app.use(express.static('uploads'))
+app.use(ErrorHandler);
+app.use(express.static('uploads'));
 
 
 // const Port = process.env.Port 
