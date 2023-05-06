@@ -19,7 +19,9 @@ const getQuestions = async (req,res,next)=>{
 
 
 const deleteQuestion = async (req, res, next) => {
-    const query = { _id: req.body._id };
+
+  try {
+        const query = { _id: req.body._id };
   
     questions.findOneAndDelete(query)
       .then((result) => {
@@ -30,6 +32,10 @@ const deleteQuestion = async (req, res, next) => {
       .catch((err) => {
         console.log(err);
       });
+  } catch (error) {
+    throw error(error)
+  }
+
   };
 
 module.exports = {addQuestion , getQuestions , deleteQuestion}

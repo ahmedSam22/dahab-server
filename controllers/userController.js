@@ -2,14 +2,22 @@ const jwt = require("jsonwebtoken");
 const users = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 
-const createUser = (req, res) =>
-  users
+const createUser = (req, res) =>{
+  try {
+    users
     .create(req.body)
     .then((doc) => res.status(200).json({ data: doc, status: 200 }))
     .catch((err) => res.status(300).json({ error: err, status: 300 }));
+  } catch (error) {
+    throw error(error)
+  }
+
+  }
 
 const login = async (req, res, next) => {
-  const query = { phone: req.body.phone };
+
+try {
+    const query = { phone: req.body.phone };
 
   const user = await users.findOne(query).exec();
 
@@ -41,10 +49,18 @@ const login = async (req, res, next) => {
     res.json({ data: "password can't match", status: 300 });
     return;
   }
+} catch (error) {
+  throw error(error)
+}
+
+
 };
 
 const forgetPassword = async (req, res, next) => {
-  const query = { phone: req.body.phone };
+
+
+  try {
+     const query = { phone: req.body.phone };
 
   const user = await users.findOne(query).exec();
 
@@ -61,10 +77,18 @@ const forgetPassword = async (req, res, next) => {
     
     console.log("it's okay yasta");
   }
+  } catch (error) {
+  throw error(error)
+    
+  }
+ 
 };
 
 const secondLayer = async (req, res, next) => {
-  const query = { phone: req.body.phone };
+
+
+  try {
+      const query = { phone: req.body.phone };
 
   const user = await users.findOne(query).exec();
 
@@ -88,10 +112,18 @@ const secondLayer = async (req, res, next) => {
     
     console.log("it's okay yasta");
   }
+  } catch (error) {
+  throw error(error)
+    
+  }
+
 };
 
 const newPassword = (req, res, next) => {
-  // const user = await users.findOne({nationalID}).exec();
+
+
+try {
+    // const user = await users.findOne({nationalID}).exec();
   const query = { phone: req.body.phone };
 
   if (req.body.password != req.body.confirmPassword) {
@@ -113,6 +145,12 @@ const newPassword = (req, res, next) => {
       res.status(300).json({ data: "fail", status: 300 });
     });
   console.log(updated);
+} catch (error) {
+  throw error(error)
+  
+}
+
+
 };
 
 

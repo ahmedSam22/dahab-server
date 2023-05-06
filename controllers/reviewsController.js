@@ -15,9 +15,14 @@ const getAllReviews = async (req,res,next)=>{
 }
 
 const createReview = (req, res) => {
-  console.log(req.body);
+  try {
+     console.log(req.body);
   reviews.create(req.body).then((doc) => res.status(200).json({ data: doc, status: 200 })).catch((err) => res.status(300).json({ error: err, status: 300 }));
 
+  } catch (error) {
+    throw error(error)
+  }
+ 
 }
 
 

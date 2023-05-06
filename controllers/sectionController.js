@@ -2,7 +2,9 @@ const Sections = require("../models/sectionsModel");
 
 
 const createSection = (req, res , next) =>{
-  console.log(req.file.path);
+
+  try {
+      console.log(req.file.path);
 
 if(req.file.path){
   Sections.create({...req.body , photo : req.file.path}).then((doc) => res.status(200).json({ data: doc, status: 200 }))
@@ -12,6 +14,10 @@ if(req.file.path){
   .catch((err) => res.status(300).json({ error: err, status: 300 }));
 }
     // Sections.create({...req.body , photo : req.file.path})
+  } catch (error) {
+    throw error(error)
+  }
+
   }
 
 const getSections = async (req, res, next) => {
@@ -29,7 +35,9 @@ const getSections = async (req, res, next) => {
 
 
 const updateSection = async (req, res, next) => {
-  // const user = await users.findOne({nationalID}).exec();
+
+try {
+    // const user = await users.findOne({nationalID}).exec();
   const query = { _id: req.body._id };
 
   const updated = Sections.findOneAndUpdate(query, req.body)
@@ -42,10 +50,18 @@ const updateSection = async (req, res, next) => {
       console.log(err);
     });
   console.log(updated);
+} catch (error) {
+  throw error(error)
+}
+
+
 };
 
 const deleteSection = async (req, res, next) => {
-  const query = { _id: req.body._id };
+
+
+  try {
+      const query = { _id: req.body._id };
 
   const updated = Sections.findOneAndDelete(query)
     .then((result) => {
@@ -57,6 +73,10 @@ const deleteSection = async (req, res, next) => {
       console.log(err);
     });
   console.log(updated);
+  } catch (error) {
+    throw error(error)
+  }
+
 };
 
 module.exports = { getSections, createSection, updateSection, deleteSection };
