@@ -5,13 +5,18 @@ const { query } = require("express");
 
 const getAllHotels = async (req, res, next) => {
   // console.log(req.headers.authorization, "okiouyguui");
-  const {page = 1 , limit = 10,type,size , startPrice = 0 , endPrice} = req.query;
-   pages=[];
+    pages=[];
+
+
+
+ const {page = 1 , limit = 10,type,size , startPrice = 10 , endPrice = 20000} = req.query;
    var query = new Object();
    if(type) query.type = type;
-   if(startPrice) query.$and = [{"price.price" :  {$gte : startPrice}} ];
+   if(startPrice) query.$and = [{"price.price" :  {$gte : startPrice}} ];  
+   if(endPrice) query.$and = [{"price.price" :  {$gte : startPrice , $lte : endPrice }} ]
+console.log(query);
 
-   if(endPrice) query.$and = [{"price.price" :  {$gte : startPrice , $lte : endPrice}} ];
+
   try {
     const allHotels = await hotels.find(query).count({});
     const links = Math.floor((allHotels / limit) + 1);

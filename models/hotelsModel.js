@@ -24,7 +24,24 @@ const hotelsModel = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  profileImage: {
+  parking:{
+    type: Boolean,
+    default: false,
+  },
+  restaurant:{
+    type: Boolean,
+    default: false,
+  },
+  bar: {
+    type: String,
+  },
+  bikeRent: {
+    type: String,
+  },
+  trips: {
+    type: String,
+  },
+  roof: {
     type: String,
   },
   photos: [
@@ -41,7 +58,7 @@ const hotelsModel = new mongoose.Schema({
   price: [
     {
       size: String,
-      price: String,
+      price: Number,
     },
   ],
   type: {
