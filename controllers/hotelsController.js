@@ -1,13 +1,10 @@
-const hotels = require("../models/hotelsModel");
-const haversine = require('haversine-distance')
-const favouriteHotels = require('../models/favouriteHotelsModule');
-const { query } = require("express");
-
+const hotels = require("../models/hotels/hotelsModel");
+const haversine = require('haversine-distance');
+const favouriteHotels = require('../models/hotels/favouriteHotelsModule');
+const reviews = require("../models/hotels/reviewsModel")
 const getAllHotels = async (req, res, next) => {
   // console.log(req.headers.authorization, "okiouyguui");
     pages=[];
-
-
 
  const {page = 1 , limit = 10,type,size , startPrice = 10 , endPrice = 20000} = req.query;
    var query = new Object();
@@ -25,7 +22,7 @@ console.log(query);
     }
     try {
        if(req.headers?.authorization){
-      const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
+      const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').limit(limit).skip((page  - 1) * limit)
 
       const favs = await favouriteHotels.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
 
@@ -53,12 +50,14 @@ console.log(query);
 
 const getHotel = async (req, res, next) => {
   const {id} = req.query;
+
   console.log(id);
   try {
-    const Hotel = await hotels.findOne({ _id: id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments");
+    const comments = await reviews.find({hotel : id}).populate("author" , "name -_id");
+    const Hotel = await hotels.findOne({ _id: id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
     if (Hotel) {
       console.log(Hotel);
-      res.status(200).json({ data: Hotel, status: 200 });
+      res.status(200).json({ data: Hotel, reviews : comments, status: 200 });
     }
   } catch (error) {
     res.status(300).json({ data: error, status: 300 });
@@ -78,7 +77,6 @@ const updateHotel = async (req, res, next) => {
     res.status(300).json({ data: error, status: 300 });
   }
 };
-
 
 const createHotel = (req, res, next) => {
 
@@ -121,7 +119,6 @@ const createHotel = (req, res, next) => {
  
 };
 
-
 const toggleFavouritre = async (req,res,next) => {
   try {
     const {id} = req.query;
@@ -150,35 +147,6 @@ const toggleFavouritre = async (req,res,next) => {
   }
 
 }
-
-
-// const filteredHotels = async (req,res,next) => {
-//   const {page = 1 , limit = 10 ,type,size , startPrice = 0 , endPrice } = req.query;
-//    pages=[];
-//      var query = new Object();
-//     if(type) query.type = type;
-//     if(startPrice) query.$and = [{"price.price" :  {$gte : startPrice}} ];
-
-//     if(endPrice) query.$and = [{"price.price" :  {$gte : startPrice , $lte : endPrice}} ];
-//    try {
-  
-//     console.log(query , "uj8aiu8aiu");
-//     const allHotels = await hotels.find(query).count();
-//     const links = Math.floor((allHotels / limit) + 1);
-//     for(let i = 1; i<=links;i++){
-//       pages.push(i)
-//     }
-//     const Hotels = await hotels.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("comments").limit(limit).skip((page  - 1) * limit)
-//     if (allHotels) {
-//       console.log(allHotels);
-//       res.status(200).json({ pages : pages,currentPage : page , data: Hotels, status: 200 });
-//     }
-//   } catch (error) {
-//     console.log("fe eih");
-//     res.status(300).json({ data: error, status: 300 });
-//   }
-// }
-
 
 const getAllFavouriteHoterls = async (req,res,next)=>{
   try {

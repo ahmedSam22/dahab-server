@@ -49,27 +49,20 @@ const hotelsModel = new mongoose.Schema({
       path: String,
     },
   ],
-  // rating: [
-  //   {
-  //     author: String,
-  //     rate: String,
-  //   },
-  // ],
   price: [
     {
-      size: String,
+      desc : String,
+      ac : Boolean,
+      fridge : Boolean,
+      insideBathroom: Boolean,
+      size: Number,
+      beds : Number,
       price: Number,
     },
   ],
   type: {
     type: String,
   },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
   contactNumber:{
     type : String
   },
@@ -84,8 +77,8 @@ const hotelsModel = new mongoose.Schema({
     default : true
   },
   author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
+   
   },
 });
 
