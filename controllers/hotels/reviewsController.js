@@ -1,4 +1,4 @@
-const reviews = require("../models/hotels/reviewsModel");
+const reviews = require("../../models/hotels/reviewsModel");
 
 
 

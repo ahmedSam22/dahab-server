@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {createUser , login, forgetPassword , newPassword , secondLayer} = require("../controllers/userController")
+const {createUser , login, forgetPassword , newPassword , secondLayer} = require("../../controllers/auth/userController")
 
 
 router.post("/register" ,  createUser)

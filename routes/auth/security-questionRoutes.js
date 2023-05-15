@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {addQuestion , getQuestions , deleteQuestion} = require("../controllers/security-questionController");
+const {addQuestion , getQuestions , deleteQuestion} = require("../../controllers/auth/security-questionController");
   
 
 router.post("/add" , addQuestion);

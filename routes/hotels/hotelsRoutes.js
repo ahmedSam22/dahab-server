@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewares/Upload")
+const upload = require("../../middlewares/Upload")
 
 
 const {
@@ -12,7 +12,7 @@ const {
     toggleFavouritre,
     getAllFavouriteHoterls,
     filteredHotels
-  } = require("../controllers/hotelsController");
+  } = require("../../controllers/hotels/hotelsController");
 
 
 router.get("/get", getAllHotels);

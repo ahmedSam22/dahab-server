@@ -1,7 +1,13 @@
-const hotels = require("../models/hotels/hotelsModel");
+const hotels = require("../../models/hotels/hotelsModel");
 const haversine = require('haversine-distance');
-const favouriteHotels = require('../models/hotels/favouriteHotelsModule');
-const reviews = require("../models/hotels/reviewsModel")
+const favouriteHotels = require('../../models/hotels/favouriteHotelsModule');
+const reviews = require("../../models/hotels/reviewsModel")
+
+
+
+
+
+
 const getAllHotels = async (req, res, next) => {
   // console.log(req.headers.authorization, "okiouyguui");
     pages=[];
@@ -26,7 +32,6 @@ console.log(query);
 
       const favs = await favouriteHotels.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
 
-
       // console.log(favs);
       res.status(200).json({ pages : pages,currentPage : page , data: Hotels,favs:favs, status: 200 });
     }else{
@@ -40,9 +45,6 @@ console.log(query);
     }
    
 
-    if (allHotels) {
- 
-    }
   } catch (error) {
     res.status(300).json({ data: error, status: 300 });
   }

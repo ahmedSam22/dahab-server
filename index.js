@@ -1,9 +1,10 @@
 const express = require("express")
 const dataConnect = require('./config/connect')
-const userRoute = require("./routes/userRoutes")
-const questionRoute = require("./routes/security-questionRoutes")
-const hotelsRoute = require("./routes/hotelsRoutes")
-const reviewsRoute = require("./routes/reviewsRoutes")
+const userRoute = require("./routes/auth/userRoutes")
+const questionRoute = require("./routes/auth/security-questionRoutes")
+const hotelsRoute = require("./routes/hotels/hotelsRoutes")
+const reviewsRoute = require("./routes/hotels/reviewsRoutes")
+const tripOfficesRoute = require("./routes/trip-offices/tripOfficesRoutes")
 const auth = require('./middlewares/Auth');
 
 var cors = require('cors')
@@ -32,6 +33,7 @@ app.use("/sec", auth ,sectionRoute);
 app.use("/question" , questionRoute);
 app.use("/hotels" , auth ,  hotelsRoute);
 app.use("/reviews", auth , reviewsRoute);
+app.use("/offices", auth , tripOfficesRoute);
 app.use(ErrorHandler);
 app.use(express.static('uploads'));
 

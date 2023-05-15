@@ -1,4 +1,4 @@
-const questions = require("../models/auth/security-question");
+const questions = require("../../models/auth/security-question");
 
 
 const addQuestion = (req, res) => questions.create(req.body).then((doc) => res.status(200).json({ data: doc, status: 200 })).catch((err) => res.status(300).json({ error: err, status: 300 }));
