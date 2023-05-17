@@ -18,7 +18,9 @@ const {
 router.get("/get", getAllHotels);
 // router.get("/filtered", filteredHotels);
 router.get("/getOne", getHotel);
-router.post("/update", updateHotel);
+router.post("/update",upload.fields([{
+  name: 'photos', maxCount: 20
+}]), updateHotel);
 router.post("/add", upload.fields([{
   name: 'photos', maxCount: 20
 }, {

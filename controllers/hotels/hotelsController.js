@@ -70,7 +70,7 @@ const updateHotel = async (req, res, next) => {
   console.log(req.body , "ikuyhygufguh");
 
   try {
-    const Hotel = await hotels.findOneAndUpdate(req.body._id, req.body, { returnDocument: "after" })
+    const Hotel = await hotels.findOneAndUpdate({_id : req.body._id}, req.body, { returnDocument: "after" })
     if (Hotel) {
       console.log(Hotel);
       res.status(200).json({ data: Hotel, status: 200 });

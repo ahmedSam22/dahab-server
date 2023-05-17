@@ -77,8 +77,8 @@ const hotelsModel = new mongoose.Schema({
     default : true
   },
   author: {
-    type: String,
-   
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 
