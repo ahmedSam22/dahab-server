@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const favouriteOfficesModel = new mongoose.Schema({
     office: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tripoffices'
+        ref: 'Tripoffice'
      },
      author: {
         type: mongoose.Schema.Types.ObjectId,

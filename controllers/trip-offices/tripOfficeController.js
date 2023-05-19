@@ -117,10 +117,26 @@ const getOffice = async (req, res, next) => {
 };
 
 
+const deleteOffice = async (req, res, next) => {
+  const {id} = req.query;
+
+  console.log(id);
+  try {
+    const tripoffice = await tripoffices.findOneAndDelete({ _id: id });
+    if (tripoffice) {
+      console.log(tripoffice);
+      res.status(200).json({ data: tripoffice,message :"office deleted", reviews : comments, status: 200 });
+    }
+  } catch (error) {
+    res.status(300).json({ data: error, status: 300 });
+  }
+};
+
+
 const toggleFavouritreOffice = async (req,res,next) => {
   try {
     const {id} = req.query;
-    const isOffice =  await tripoffices.findOne({ office : id , author :req.user._id })
+    const isOffice =  await officFavourite.findOne({ office : id , author :req.user._id })
     const body = {
       office : id,
       author: req.user._id,
@@ -161,4 +177,4 @@ const getAllFavouriteOffices = async (req,res,next)=>{
 
 }
 
-module.exports = { getAllOffices, createOffice , updateOffice , getOffice , toggleFavouritreOffice , getAllFavouriteOffices};
+module.exports = { getAllOffices, createOffice , updateOffice , getOffice , toggleFavouritreOffice , getAllFavouriteOffices , deleteOffice};

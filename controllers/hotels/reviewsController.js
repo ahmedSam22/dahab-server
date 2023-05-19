@@ -40,6 +40,19 @@ const getHotelReviews = async (req,res,next)=>{
     }
 }
 
+const deleteHotelReviews = async (req,res,next)=>{
+  const {id} = req.query;
+
+ 
+  try {
+      const allReviews = await reviews.findOneAndDelete({_id : id})
+        res.status(200).json({ data: allReviews,message:"review deleted" , status: 200 });
+      
+    } catch (error) {
+      res.status(300).json({ data: error, status: 300 });
+    }
+}
+
 
 const createReview = (req, res) => {
   try {
@@ -54,4 +67,4 @@ const createReview = (req, res) => {
 
 
 
-module.exports = { getAllReviews , createReview,getHotelReviews};
+module.exports = { getAllReviews ,deleteHotelReviews, createReview,getHotelReviews};

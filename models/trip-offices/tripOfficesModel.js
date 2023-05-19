@@ -38,6 +38,6 @@ const tripOfficeModel = new mongoose.Schema({
   },
 });
 
-const tripOffice = mongoose.model("Tripoffices", tripOfficeModel);
+const tripOffices = mongoose.model("Tripoffice", tripOfficeModel);
 
-module.exports = tripOffice;
+module.exports = tripOffices

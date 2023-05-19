@@ -28,10 +28,13 @@ const activityModel = new mongoose.Schema({
       price: {
         type : Number
     },
-
+    accepted:{
+        type :Boolean,
+        default : true
+      },
     office: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'OfficeReviews'
+        ref: 'Tripoffice'
      },
 
 })
@@ -43,6 +46,6 @@ activityModel.pre("save" , function(next){
 })
 
 
-const Activity = mongoose.model("Activity" , activityModel);
+const Activities = mongoose.model("Activity" , activityModel);
 
-module.exports = Activity
+module.exports = Activities

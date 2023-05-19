@@ -52,6 +52,21 @@ const createOfficeReview = (req, res) => {
  
 }
 
+const deleteReview = async (req, res, next) => {
+  const {id} = req.query;
+
+  console.log(id);
+  try {
+    const reviewOffice = await OfficeReviews.findOneAndDelete({ _id: id });
+    if (reviewOffice) {
+      console.log(reviewOffice);
+      res.status(200).json({ data: reviewOffice, reviews : comments, status: 200 });
+    }
+  } catch (error) {
+    res.status(300).json({ data: error, status: 300 });
+  }
+};
 
 
-module.exports = { getAllOfficesReviews , createOfficeReview,getOfficeReviews};
+
+module.exports = { getAllOfficesReviews , createOfficeReview,getOfficeReviews , deleteReview};

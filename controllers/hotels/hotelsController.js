@@ -66,6 +66,22 @@ const getHotel = async (req, res, next) => {
   }
 };
 
+const deleteHotel = async (req, res, next) => {
+  const {id} = req.query;
+
+  console.log(id);
+  try {
+    const Hotel = await hotels.findOneAndDelete({ _id: id })
+    if (Hotel) {
+      console.log(Hotel);
+      res.status(200).json({ data: Hotel, message : "hotele deleted",status: 200 });
+    }
+  } catch (error) {
+    res.status(300).json({ data: error, status: 300 });
+  }
+};
+
+
 const updateHotel = async (req, res, next) => {
   console.log(req.body , "ikuyhygufguh");
 
@@ -174,4 +190,4 @@ console.log(haversine(a, b)/1000)
 
 
 }
-module.exports = { getAllHotels, getHotel , updateHotel , createHotel , getDistance , toggleFavouritre,getAllFavouriteHoterls };
+module.exports = { getAllHotels, getHotel , updateHotel , deleteHotel , createHotel , getDistance , toggleFavouritre,getAllFavouriteHoterls };

@@ -21,11 +21,11 @@ const officeReviewsSchema = new mongoose.Schema({
    },
   office: {
    type: mongoose.Schema.Types.ObjectId,
-   ref: "Tripoffices",
+   ref: "Tripoffice",
  },
 })
 
 
-const OfficeReview = mongoose.model("OfficeReviews" , officeReviewsSchema);
+const OfficesReviews = mongoose.model("OfficeReview" , officeReviewsSchema);
 
-module.exports = OfficeReview
+module.exports = OfficesReviews
