@@ -36,14 +36,13 @@ const activityModel = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tripoffice'
      },
+     author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
 
 })
 
-activityModel.pre("save" , function(next){
-    const dur = +time.from - +time.to;
-    this.duration = dur;
-    next()
-})
 
 
 const Activities = mongoose.model("Activity" , activityModel);

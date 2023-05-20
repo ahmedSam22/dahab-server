@@ -6,6 +6,7 @@ const hotelsRoute = require("./routes/hotels/hotelsRoutes")
 const reviewsRoute = require("./routes/hotels/reviewsRoutes")
 const tripOfficesRoute = require("./routes/trip-offices/tripOfficesRoutes")
 const officeReviewsRoute = require("./routes/trip-offices/officesReviews")
+const activitiesRoute = require("./routes/activities/activityRoutes")
 const auth = require('./middlewares/Auth');
 
 var cors = require('cors')
@@ -36,6 +37,7 @@ app.use("/hotels" , auth ,  hotelsRoute);
 app.use("/reviews", auth , reviewsRoute);
 app.use("/offices", auth , tripOfficesRoute);
 app.use("/officesreviews", auth , officeReviewsRoute);
+app.use("/activities", auth , activitiesRoute);
 app.use(ErrorHandler);
 app.use(express.static('uploads'));
 
