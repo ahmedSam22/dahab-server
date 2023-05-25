@@ -170,11 +170,11 @@ const createActivity = (req, res, next) => {
   const getAllFavouriteActivities = async (req,res,next)=>{
     try {
       const {page = 1 , limit = 10} = req.query;
-      const allActivities = await favouriteactivity.find({author : req.user._id});
+      const allActivities = await favouriteactivity.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate('activity').limit(limit).skip((page  - 1) * limit);
     
       const links = Math.floor((allActivities.length / limit) + 1);
-      console.log(req.user._id);
-      const favourites = favouriteactivity.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate('activity').limit(limit).skip((page  - 1) * limit).then((doc) => res.status(200).json({data:favourites ,pages : links , currentPage : page , status:200}));
+      console.log(allActivities , "shit");
+      const favourites = favouriteactivity.find({author : req.user._id}).populate('activity').limit(limit).skip((page  - 1) * limit).then((doc) => res.status(200).json({data:allActivities ,pages : links , currentPage : page , status:200}));
     //   return favourites;
     } catch (error) {
       throw error(error)

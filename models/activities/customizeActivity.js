@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const customizeActivityModel = new mongoose.Schema({
-    placeName: {
+    placename: {
         type: String,
         required: true,
       },
@@ -14,17 +14,24 @@ const customizeActivityModel = new mongoose.Schema({
     description: {
         type : String
     },
+
     price: {
         type : Number
     },
+
     accepted:{
         type :Boolean,
         default : false
       },
-    office: {
+      
+      office: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tripoffice'
      },
+     author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
 
 })
 
