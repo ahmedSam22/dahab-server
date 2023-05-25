@@ -50,7 +50,7 @@ const getCustomise = async (req, res, next) => {
     console.log(id);
     try {
       const oneCustomise = await customiseactivity.findOne({ _id: id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("office" , "-_id -__v");;
-      if (oneActivity) {
+      if (oneCustomise) {
         console.log(oneCustomise);
         res.status(200).json({ data: oneCustomise , status: 200 });
       }
@@ -82,7 +82,7 @@ const updateCustomise = async (req, res, next) => {
     console.log(req.body , "ikuyhygufguh");
   
     try {
-      const oneCustomise = await customiseactivity.findOneAndUpdate({_id : req.body._id}, req.body, { returnDocument: "after" })
+      const oneCustomise = await customiseactivity.findOneAndUpdate({_id : req.body.id}, req.body, { returnDocument: "after" })
       if (oneCustomise) {
         console.log(oneCustomise);
         res.status(200).json({ data: oneCustomise, status: 200 });
