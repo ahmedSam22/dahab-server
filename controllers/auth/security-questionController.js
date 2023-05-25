@@ -21,7 +21,7 @@ const getQuestions = async (req,res,next)=>{
 const deleteQuestion = async (req, res, next) => {
 
   try {
-        const query = { _id: req.body._id };
+        const query = { _id: req.body.id };
   
     questions.findOneAndDelete(query)
       .then((result) => {
