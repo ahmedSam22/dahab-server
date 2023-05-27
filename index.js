@@ -43,11 +43,10 @@ app.use("/activitiesreviews", auth , activitiesReviewsRoute);
 app.use(ErrorHandler);
 app.use(express.static('uploads'));
 
-
-// const Port = process.env.Port 
+const Port = 5000
 
 dataConnect().then(_=>{
-  app.listen(5000,()=>{
+  app.listen(Port,()=>{
     console.log("tamam");
     })
 })

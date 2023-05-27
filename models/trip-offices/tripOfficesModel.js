@@ -9,6 +9,9 @@ const tripOfficeModel = new mongoose.Schema({
     lat: String,
     lng: String,
   },
+  distance: {
+    type: String,
+  },
   contactNumber: {
     type: String,
   },
@@ -26,11 +29,11 @@ const tripOfficeModel = new mongoose.Schema({
   },
   outside: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   customise: {
     type: Boolean,
-    default: true,
+    default: false,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,

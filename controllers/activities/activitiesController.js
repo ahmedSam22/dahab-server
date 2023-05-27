@@ -1,5 +1,6 @@
 const activity = require('../../models/activities/activityModel');
 const favouriteactivity= require('../../models/activities/favouriteActivitiesModel');
+const activityReview= require('../../models/activities/activitiesReviews');
 
 
 const getAllActivities = async (req,res,next)=>{
@@ -53,7 +54,7 @@ const getActivity = async (req, res, next) => {
   
     console.log(id);
     try {
-      const activityReviews = await favouriteactivity.find({activity : id}).populate("author" , "name -_id")
+      const activityReviews = await activityReview.find({activity : id}).populate("author" , "name -_id")
       const oneActivity = await activity.findOne({ _id: id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("office" , "-_id -__v");;
       if (oneActivity) {
         console.log(oneActivity);

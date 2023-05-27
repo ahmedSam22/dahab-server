@@ -23,6 +23,7 @@ console.log(query);
   try {
     const allHotels = await hotels.find(query).count({});
     const links = Math.floor((allHotels / limit) + 1);
+    
     for(let i = 1; i<=links;i++){
       pages.push(i)
     }
@@ -188,7 +189,5 @@ console.log(haversine(a, b)/1000)
   } catch (error) {
     throw error(error)
   }
-
-
 }
 module.exports = { getAllHotels, getHotel , updateHotel , deleteHotel , createHotel , getDistance , toggleFavouritre,getAllFavouriteHoterls };
