@@ -10,7 +10,9 @@ const customizeActivityModel = new mongoose.Schema({
         from : String,
         to : String
     },
-
+    persons :{
+      type : Number
+  },
     description: {
         type : String
     },

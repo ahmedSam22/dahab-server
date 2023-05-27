@@ -23,6 +23,10 @@ const tripOfficeModel = new mongoose.Schema({
       path: String,
     },
   ],
+  activity: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Activity",
+  },
   accepted: {
     type: Boolean,
     default: true,

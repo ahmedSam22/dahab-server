@@ -19,10 +19,7 @@ const activityReviewsSchema = new mongoose.Schema({
       type: Number,
       max : 5,
    },
-  activity: {
-   type: mongoose.Schema.Types.ObjectId,
-   ref: "Activity",
- },
+ 
 })
 
 

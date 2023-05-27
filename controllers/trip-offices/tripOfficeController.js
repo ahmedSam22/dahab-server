@@ -1,7 +1,9 @@
 const tripoffices = require('../../models/trip-offices/tripOfficesModel');
 const haversine = require('haversine-distance');
 const officReviews = require("../../models/trip-offices/officesReviews")
-const officFavourite = require("../../models/trip-offices/favouriteOfficesModel")
+const officFavourite = require("../../models/trip-offices/favouriteOfficesModel");
+const activity = require('../../models/activities/activityModel');
+
 
 
 const getAllOffices = async(req , res,next) =>{
@@ -81,12 +83,14 @@ const getOffice = async (req, res, next) => {
   const {id} = req.query;
 
   console.log(id);
+  
   try {
-    const comments = await officReviews.find({office : id}).populate("author" , "name -_id");
     const tripoffice = await tripoffices.findOne({ _id: id }).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
+    const comments = await officReviews.find({office : id}).populate("author" , "name -_id");
+    const act = await activity.find({office : id})
     if (tripoffice) {
-      console.log(tripoffice);
-      res.status(200).json({ data: tripoffice, reviews : comments, status: 200 });
+      console.log(act);
+      res.status(200).json({ data:tripoffice, activities : act , reviews : comments, status: 200 });
     }
   } catch (error) {
     res.status(300).json({ data: error, status: 300 });
