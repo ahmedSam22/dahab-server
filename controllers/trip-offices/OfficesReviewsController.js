@@ -4,7 +4,7 @@ const OfficeReviews = require("../../models/trip-offices/officesReviews");
 
 const getAllOfficesReviews = async (req,res,next)=>{
     try {
-        const allReviews = await OfficeReviews.find({}).populate("office" , "name contactNumber").populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
+        const allReviews = await OfficeReviews.find({}).populate("office" , "name contactnumber").populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
         if (allReviews) {
           console.log(allReviews);
           res.status(200).json({ data: allReviews, status: 200 });
@@ -31,7 +31,7 @@ const getOfficeReviews = async (req,res,next)=>{
     for(let i = 1; i<=links;i++){
       pages.push(i)
     }
-      const allReviews = await OfficeReviews.find({office : office}).populate("office" , "name contactNumber").populate("author" , "name -_id").limit(limit).skip((page  - 1) * limit)
+      const allReviews = await OfficeReviews.find({office : office}).populate("office" , "name contactnumber").populate("author" , "name -_id").limit(limit).skip((page  - 1) * limit)
       if (allReviews) {
         res.status(200).json({pages : pages,currentPage : page , data: allReviews, status: 200 });
       }

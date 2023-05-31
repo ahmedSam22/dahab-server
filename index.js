@@ -8,6 +8,8 @@ const tripOfficesRoute = require("./routes/trip-offices/tripOfficesRoutes")
 const officeReviewsRoute = require("./routes/trip-offices/officesReviews")
 const activitiesRoute = require("./routes/activities/activityRoutes")
 const activitiesReviewsRoute = require("./routes/activities/activityReviewsRoutes")
+const transportsRoutes = require("./routes/transports/inside/driversRoutes")
+const transportsReviewsRoute = require("./routes/transports/inside/driversReviewsRoutes")
 const auth = require('./middlewares/Auth');
 
 var cors = require('cors')
@@ -40,6 +42,8 @@ app.use("/offices", auth , tripOfficesRoute);
 app.use("/officesreviews", auth , officeReviewsRoute);
 app.use("/activities", auth , activitiesRoute);
 app.use("/activitiesreviews", auth , activitiesReviewsRoute);
+app.use("/transports", auth , transportsRoutes);
+app.use("/insidetransportsreviews", auth , transportsReviewsRoute);
 app.use(ErrorHandler);
 app.use(express.static('uploads'));
 

@@ -12,7 +12,7 @@ const tripOfficeModel = new mongoose.Schema({
   distance: {
     type: String,
   },
-  contactNumber: {
+  contactnumber: {
     type: String,
   },
   description: {

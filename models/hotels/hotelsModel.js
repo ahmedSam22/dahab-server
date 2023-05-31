@@ -63,7 +63,7 @@ const hotelsModel = new mongoose.Schema({
   type: {
     type: String,
   },
-  contactNumber:{
+  contactnumber:{
     type : String
   },
   description:{
