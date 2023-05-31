@@ -22,10 +22,12 @@ const customizeActivityModel = new mongoose.Schema({
     },
 
     accepted:{
-        type :Boolean,
+        type :Number,
         default : false
       },
-      
+      notes :{
+        type : String
+      },
       office: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tripoffice'

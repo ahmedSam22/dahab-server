@@ -7,7 +7,7 @@ const { getAllOfficesReviews , createOfficeReview,getOfficeReviews , deleteRevie
 
 router.get("/get", getAllOfficesReviews);
 router.post("/add", createOfficeReview);
-router.get("/gethotel", getOfficeReviews);
+router.get("/getoffice", getOfficeReviews);
 router.delete("/deletereview", deleteReview);
 
 

@@ -5,7 +5,7 @@ const activityModel = new mongoose.Schema({
         type: String,
         required: true,
       },
-
+   
     time :{
         from : String,
         to : String
@@ -39,6 +39,10 @@ const activityModel = new mongoose.Schema({
      author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    adultonly:{
+      type: Boolean,
+      default : false
     },
 
 })
