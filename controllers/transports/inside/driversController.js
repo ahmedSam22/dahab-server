@@ -35,6 +35,7 @@ const createDriver = async(req,res,next) =>{
       
         // console.log(req.files.profileImage, "ksjaihuih");
         var photos = [];
+        var driverimages = [];
         var body = {
             ...req.body,
             distance : distance,
@@ -52,6 +53,21 @@ const createDriver = async(req,res,next) =>{
       
       
         } 
+
+
+        if (req.files.driverimage) {
+            for (let i = 0; i < req.files.driverimage.length; i++) {
+                driverimages[i] = {
+                path: req.files.driverimage[i].path,
+              };
+            }
+            body.driverimage = driverimages
+        
+        
+          } 
+
+
+        
   console.log("dsadasdasdasdasdasdaqqwewqqw");
         drivers
         .create(body)

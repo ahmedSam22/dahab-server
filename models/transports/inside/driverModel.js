@@ -17,6 +17,11 @@ const driverModel = new mongoose.Schema({
       path: String,
     },
   ],
+  driverimage:[
+    {
+      path: String,
+    },
+  ],
   price: {
     type: Number,
   },
