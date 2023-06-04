@@ -15,11 +15,7 @@ const getAllActivities = async (req,res,next)=>{
 //    console.log(query);
 
    try {
-    const countedActivities = activity.find({}).count({})
-    const links = Math.floor((countedActivities / limit) + 1);
-    for(let i = 1; i<=links;i++){
-      pages.push(i)
-    }
+ 
 
     try {
     //     if(req.headers?.authorization){
@@ -35,8 +31,13 @@ const getAllActivities = async (req,res,next)=>{
     //    res.status(200).json({ pages : pages,currentPage : page , data: Hotels, status: 200 });
  
     //  }
-    const activities = await activity.find({}).populate("author" , "name -_id").populate("office" , "-_id -__v").limit(limit).skip((page  - 1) * limit)
- 
+    const forPages = await activity.find({})
+
+    const activities = await activity.find({}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("office" , "-_id name").limit(limit).skip((page  - 1) * limit)
+    const links = Math.floor((forPages.length / limit) + 1);
+    for(let i = 1; i<=links;i++){
+      pages.push(i)
+    }
     res.status(200).json({ pages : pages,currentPage : page , data: activities, status: 200 });
      } catch (error) {
        console.log(error);
@@ -65,6 +66,23 @@ const getActivity = async (req, res, next) => {
     }
   };
 
+  const getFilteredActivity = async (req, res, next) => {
+    const {name,night} = req.query;
+  
+    console.log(name,night , "hhhh");
+    try {
+      var query = new Object();
+      if(night) query.night = night;
+      // if(name) query.$and = [{ $match: { 'name':  }} ];  
+      const filteredActivity = await activity.find(query).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion').populate("office" , "-_id -__v");;
+      if (filteredActivity) {
+        console.log(filteredActivity);
+        res.status(200).json({ data: filteredActivity, status: 200 });
+      }
+    } catch (error) {
+      res.status(300).json({ data: error, status: 300 });
+    }
+  };
 
 
 const deleteActivity = async (req, res, next) => {
@@ -185,4 +203,4 @@ const createActivity = (req, res, next) => {
 
 
 
-  module.exports = { getAllActivities, getActivity , deleteActivity , updateActivity , createActivity , toggleFavouritre , getAllFavouriteActivities};
+  module.exports = { getAllActivities, getActivity , deleteActivity , updateActivity , createActivity , toggleFavouritre , getAllFavouriteActivities,getFilteredActivity};

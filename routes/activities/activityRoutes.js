@@ -4,10 +4,11 @@ const upload = require("../../middlewares/Upload")
 
 
 
-const { getAllActivities, getActivity , deleteActivity , updateActivity , createActivity , toggleFavouritre , getAllFavouriteActivities}= require("../../controllers/activities/activitiesController");
+const { getAllActivities, getActivity , deleteActivity , updateActivity , createActivity , toggleFavouritre , getAllFavouriteActivities , getFilteredActivity}= require("../../controllers/activities/activitiesController");
 const { getAllCustomises, getCustomise , deleteCustomise , updateCustomise , createCustomise} = require("../../controllers/activities/customizeActiviryController");
 
 router.get("/get", getAllActivities);
+router.get("/getfiltered", getFilteredActivity);
 
 router.post("/add", upload.fields([{
     name: 'photos', maxCount: 20

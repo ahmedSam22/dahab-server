@@ -28,6 +28,9 @@ const activityModel = new mongoose.Schema({
       price: {
         type : Number
     },
+    night:{
+      type :Boolean,
+    },
     accepted:{
         type :Boolean,
         default : true

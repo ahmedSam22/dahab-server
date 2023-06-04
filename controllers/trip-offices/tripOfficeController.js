@@ -15,8 +15,9 @@ const getAllOffices = async(req , res,next) =>{
     const {page = 1 , limit = 10,type,size} = req.query;
 
     try {
+      const forPages = await tripoffices.find({})
       const offices = await tripoffices.find({}).populate("author" , "name -_id").limit(limit).skip((page  - 1) * limit)
-      const links = Math.floor((offices.length / limit) + 1);
+      const links = Math.floor((forPages.length / limit) + 1);
       for(let i = 1; i<=links;i++){
         pages.push(i)
       }
