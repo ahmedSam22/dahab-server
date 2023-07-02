@@ -33,7 +33,6 @@ const getSections = async (req, res, next) => {
 };
 
 
-
 const updateSection = async (req, res, next) => {
 
 try {

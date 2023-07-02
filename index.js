@@ -1,9 +1,15 @@
 const express = require("express")
 const dataConnect = require('./config/connect')
-const userRoute = require("./routes/userRoutes")
-const questionRoute = require("./routes/security-questionRoutes")
-const hotelsRoute = require("./routes/hotelsRoutes")
-const reviewsRoute = require("./routes/reviewsRoutes")
+const userRoute = require("./routes/auth/userRoutes")
+const questionRoute = require("./routes/auth/security-questionRoutes")
+const hotelsRoute = require("./routes/hotels/hotelsRoutes")
+const reviewsRoute = require("./routes/hotels/reviewsRoutes")
+const tripOfficesRoute = require("./routes/trip-offices/tripOfficesRoutes")
+const officeReviewsRoute = require("./routes/trip-offices/officesReviews")
+const activitiesRoute = require("./routes/activities/activityRoutes")
+const activitiesReviewsRoute = require("./routes/activities/activityReviewsRoutes")
+const transportsRoutes = require("./routes/transports/inside/driversRoutes")
+const transportsReviewsRoute = require("./routes/transports/inside/driversReviewsRoutes")
 const auth = require('./middlewares/Auth');
 
 var cors = require('cors')
@@ -32,14 +38,19 @@ app.use("/sec", auth ,sectionRoute);
 app.use("/question" , questionRoute);
 app.use("/hotels" , auth ,  hotelsRoute);
 app.use("/reviews", auth , reviewsRoute);
+app.use("/offices", auth , tripOfficesRoute);
+app.use("/officesreviews", auth , officeReviewsRoute);
+app.use("/activities", auth , activitiesRoute);
+app.use("/activitiesreviews", auth , activitiesReviewsRoute);
+app.use("/transports", auth , transportsRoutes);
+app.use("/insidetransportsreviews", auth , transportsReviewsRoute);
 app.use(ErrorHandler);
 app.use(express.static('uploads'));
 
-
-// const Port = process.env.Port 
+const Port = 5000
 
 dataConnect().then(_=>{
-  app.listen(5000,()=>{
+  app.listen(Port,()=>{
     console.log("tamam");
     })
 })
