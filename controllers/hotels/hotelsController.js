@@ -34,11 +34,11 @@ console.log(query);
       const favs = await favouriteHotels.find({author : req.user._id}).populate("author" , '-password -securityanswer -createdAt -updatedAt -__v -securityquestion');
 
       // console.log(favs);
-      res.status(200).json({ pages : pages,currentPage : page , data: Hotels,favs:favs, status: 200 });
+      res.status(200).json({count : allHotels ,  pages : pages,currentPage : page , data: Hotels,favs:favs, status: 200 });
     }else{
       const Hotels = await hotels.find({}).limit(limit).skip((page  - 1) * limit)
 
-      res.status(200).json({ pages : pages,currentPage : page , data: Hotels, status: 200 });
+      res.status(200).json({count : allHotels, pages : pages,currentPage : page , data: Hotels, status: 200 });
 
     }
     } catch (error) {
